@@ -1,0 +1,40 @@
+1. Typically, we usually need 3 files to carry out a QE calculation: 
+    (1)pw.in --- calculation parameters and structural information (i.e., atoms coordinates);
+    (2)*.UPF --- pseudopotential file;
+    (3)job_sub.slurm --- Linux scripts to submit the VASP calculation.
+2. In pw.in file, entering the coordinates of each atom is time-consuming, especially for large systems. Now, we can use the ASE package to automatically generate pw.in and *.UPF files, and carry out the QE calculation;
+3. Now, we can use the follow 3 files to carry out QE calculation, like VASP calculation:
+    (1)ase-qe.py;
+    (2)POSCAR;
+    (3)job_sub.slurm
+4. A example using ASE-QE (i.e., ase-qe.py) is shown below:
+from ase.io import read,write
+from ase.calculators.espresso import Espresso
+myaseobj=read('POSCAR')
+inp_data={'prefix':'MoS2',  ## prepended to input/output filenames
+          'pseudo_dir':'/home/lisw/bin/lib-qe/pslibrary.1.0.0/rel-pbe/PSEUDOPOTENTIALS/',   ## directory containing pseudopotential files
+          'calculation':'relax',  ## a string describing the task to be performed
+          'restart_mode':'from_scratch',
+          'tstress':True,  ## calculate stress. It is set to True automatically if calculation == 'vc-md' or 'vc-relax'
+          'tprnfor':True,  ## calculate forces. It is set to True automatically if calculation == 'relax', 'md', 'vc-md'
+          'wf_collect':True,
+          'verbosity':'high',  ## currently two levels are implemented: 'high' or 'low'
+          'outdir':"./",  ## input, temporary, output files are found in this directory
+          'forc_conv_thr':0.0005,  ## convergence threshold on forces (a.u.) for ionic minimization
+          'nstep':1000,  ## Number of structural optimization steps performed in this run
+          #'nbnd':36,  ## Number of electronic states (bands) to be calculated.
+          'ecutwfc':30.0,  ## kinetic energy cutoff (Ry) for wavefunctions
+          'ecutrho':180.0,  ## kinetic energy cutoff (Ry) for charge density and potential.
+          'vdw_corr':'grimme-d3',  ## Type of Van der Waals correction.
+          'occupations':'fixed',  ## 'smearing': metals; 'tetrahedra': DOS; 'fixed': insulators with a gap
+          'smearing':'gauss',
+          'electron_maxstep':300,  ## maximum number of iterations in a scf step
+          'conv_thr':1.0e-9,  ## convergence threshold for selfconsistency: estimated energy error < conv_thr
+          'mixing_beta':0.7,  ## mixing factor for self-consistency
+          'mixing_mode':'plain',
+          'diagonalization':'cg', ## options: 'david', 'cg', 'ppcg', 'paro', 'rmm-davidson'
+          #'press_conv_thr':0.01,  ## convergence threshold on the pressure for variable cell relaxation
+          'cell_dofree':'shape',  ## select which of the cell parameters should be moved
+         }
+pseudodict={'Mo':'Mo.rel-pbe-n-nc.UPF', 'S':'S.rel-pbe-n-nc.UPF'}
+write('relax.pwi', myaseobj, pseudopotentials=pseudodict, input_data=inp_data, kpts=(3,3,1))
