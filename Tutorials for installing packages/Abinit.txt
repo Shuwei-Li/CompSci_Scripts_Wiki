@@ -2,13 +2,13 @@
 https://www.abinit.org/packages, and corresponding installation can also be found at this website;
 
 2. Now, the detailed step for installing Abinit(V9.10.3) are shown below:
-              1)  "tar -xvf abinit-9.10.3.tar.gz"
-              2)  "cd abinit-9.10.3"
-              3)  "./configure", and an error will occur as:
+      1)  "tar -xvf abinit-9.10.3.tar.gz"
+      2)  "cd abinit-9.10.3"
+      3)  "./configure", and an error will occur as:
 'Your environment does not provide mandatory libraries'
-              4)  "cd fallbacks";
-              5)  "./build-abinit-fallbacks.sh";
-              6)  after carrying out the command 5, there will are some lines about the llinks of libraries on your terminal, like that:
+      4)  "cd fallbacks";
+      5)  "./build-abinit-fallbacks.sh";
+      6)  after carrying out the command 5, there will are some lines about the llinks of libraries on your terminal, like that:
 'The fallbacks are now ready to use.
 You can link these fallbacks with Abinit by copying the following options to your ac9 file.
 
@@ -19,11 +19,11 @@ with_hdf5=/home/lisw/Soft/abinit-9.10.3/fallbacks/install_fb/intel/19.1/hdf5/1.1
 with_netcdf=/home/lisw/Soft/abinit-9.10.3/fallbacks/install_fb/intel/19.1/netcdf4/4.9.0
 
 with_netcdf_fortran=/home/lisw/Soft/abinit-9.10.3/fallbacks/install_fb/intel/19.1/netcdf4_fortran/4.6.0'
-              7) so, we need to go back upward folder, and make the hostname.ac9 file, and copy these links in hostname.ac9 file;
-              8)  "cd .."
-              9)  "vi master.ac9"
-              10)  copy these links in "master.ac9" file
-              11) "./configure"
-              12) "make"
-              13) "mkdir build"
-              14) "make install prefix=/home/lisw/Soft/abinit-9.10.3/build“
+      7) so, we need to go back upward folder, and make the hostname.ac9 file, and copy these links in hostname.ac9 file;
+      8)  "cd .."
+      9)  "vi master.ac9"
+      10)  copy these links in "master.ac9" file
+      11) "./configure"
+      12) "make"
+      13) "mkdir build"
+      14) "make install prefix=/home/lisw/Soft/abinit-9.10.3/build“
