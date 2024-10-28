@@ -1,0 +1,23 @@
+1. Some useful information about installing Seista can be seen on these 2 Websites:
+        1) http://bbs.keinsci.com/thread-3774-1-1.html;
+        2) https://zhuanlan.zhihu.com/p/609209355;
+
+2. Here are the detailed steps for installing Seista:
+        1) "tar -xvf siesta-4.0.2.tar";
+        2) "cd siesta-4.0.2";
+        3) "cd Obj";
+        4) "../Src/obj_setup.sh";
+        5) "../Src/configure --enable-mpi FC=mpif90";
+        6) modiy the arck.make file about this part:
+MKL_PATH=/opt/intel/compilers_and_libraries_2017.4.196/linux/mkl/lib/intel64/
+BLAS_LIBS=-L$(MKL_PATH) -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lmkl_blacs_intelmpi_lp64 -lmkl_scalapack_lp64
+LAPACK_LIBS=
+BLACS_LIBS=
+        7) especially, the MKL_PATH can be found by using this command "which mpicc", it will tell your the path of intermpi on your cluster;
+        8) "make";
+        9) and, next, we will compile the "transeista":
+                  a. "make clean"
+                  b. "make transeista"
+        10) and, next, we will compile the "TBtrans":
+                  a. "cd ../Util/TBTrans"
+                  b. "make"
