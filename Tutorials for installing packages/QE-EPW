@@ -1,0 +1,9 @@
+1. The commands for installing all released QE and EPW can be found at this Website:
+https://docs.epw-code.org/doc/DownloadAndInstall.html#
+
+2.  For example, we can download and install QE(V7.2) and EPW(V6.0) as introducing below: 
+    1). Download EPW v6.0alpha with QE
+    2). Unpack and configure Quantum-ESPRESSO. This can be done by copy/pasting the following lines:
+        tar xvfz q-e-epw6alpha.tar.gz && cd q-e && ./configure --enable-openmp --with-hdf5=${HDF5_DIR}
+    3). Compile EPW (this will also compile pwscf, phonon, and wannier90):
+        make epw
