@@ -1,0 +1,7 @@
+1. AMSET is an efficient package for calculating electron lifetimes and transport properties in solid-state materials from first principles. 
+More information about AMSET can be found in its Website: https://hackingmaterials.lbl.gov/amset/;
+
+2. As described on above website, AMSET can be installed using the Python package manager 'Pip', like the command 'pip install amset'. 
+But some error usually occurred, especially some dependencies about 'Boltztrap';
+
+3. So, one alternative way for installing AMSET is 'Conda', the corresponding command is: 'conda install -c conda-forge amset'
