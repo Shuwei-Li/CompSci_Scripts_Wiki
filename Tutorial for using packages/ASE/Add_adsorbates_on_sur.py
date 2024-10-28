@@ -1,3 +1,4 @@
+### This is a python script that can be used to add adsorbates on surface automatically. ###
 import os
 from ase.io import read, write
 import numpy as np
