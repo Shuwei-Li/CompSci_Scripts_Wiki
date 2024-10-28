@@ -1,0 +1,10 @@
+Tips:
+1. A detailed introduction and examples of dielectric properties calculation using VASP is available on its official Website: https://www.vasp.at/wiki/index.php/Dielectric_properties_of_SiC
+
+2. The most convenient way to determine the Born effective charges, dielectric-, piezoelectric tensors is by means of density functional perturbation theory (LEPSILON = .TRUE.);
+
+3. The results of the calculation of static dielectric properties by means of LEPSILON = .TRUE. tend to converge more rapidly w.r.t. k-point sampling with LPEAD = .TRUE.;
+
+4. N.B. Please note that LPEAD = .TRUE. is not supported for metallic systems;
+
+Steps:
