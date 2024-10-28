@@ -1,1 +1,1 @@
-# CompSci_ResearchScripts
+# CompSci_Scripts_Wiki
