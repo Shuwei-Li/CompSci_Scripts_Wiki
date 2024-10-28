@@ -1,12 +1,14 @@
-1. Typically, we usually need 4 files to carryout a VASP calculation: 
+1. Typically, we usually need 4 files to carry out a VASP calculation: 
     (1)INCAR --- calculation parameters;
     (2)POSCAR --- structure file;
     (3)POTCAR --- pseudopotential fiel;
     (4)job_sub.slurm --- Linux scripts to submit the VASP calculation.
-2. In order to simply the preparation for the VASP calculation, we can use the ASE
-
-
-opt-vasp.py:
+2. In order to simply the preparation for the VASP calculation, we can use the ASE package to automatically generate INCAR and POTCAR, and carry out the VASP calculation
+3. Now, we only need 3 files:
+    (1)ase-vasp.py;
+    (2)POSCAR
+    (3)job_sub.slurm
+4. A example using ASE-VASP (i.e., ase-vasp.py) is shown below:
 #!/usr/bin/env python
 from ase import Atoms, Atom
 from ase.calculators.vasp import Vasp
