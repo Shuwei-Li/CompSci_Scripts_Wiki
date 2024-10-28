@@ -1,7 +1,7 @@
 1. Typically, we usually need 4 files to carry out a VASP calculation: 
     (1)INCAR --- calculation parameters;
     (2)POSCAR --- structure file;
-    (3)POTCAR --- pseudopotential fiel;
+    (3)POTCAR --- pseudopotential file;
     (4)job_sub.slurm --- Linux scripts to submit the VASP calculation.
 2. In order to simply the preparation for the VASP calculation, we can use the ASE package to automatically generate INCAR and POTCAR, and carry out the VASP calculation
 3. Now, we only need 3 files:
