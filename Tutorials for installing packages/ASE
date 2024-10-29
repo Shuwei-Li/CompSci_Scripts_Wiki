@@ -1,0 +1,5 @@
+1. The detailed information about the installation of ASE can be found on its website:
+https://wiki.fysik.dtu.dk/ase/install.html
+
+2. I really recommand the pip way to install ASE:
+pip install --upgrade ase
