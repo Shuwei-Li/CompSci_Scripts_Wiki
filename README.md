@@ -1,2 +1,2 @@
 # CompSci_Scripts_Wiki
-Here, you’ll find Python scripts from my computational materials science research, along with tutorials on installing and using relevant packages.
+This repository contains Python scripts from my computational materials science research, as well as tutorials for installing and using the necessary packages.
