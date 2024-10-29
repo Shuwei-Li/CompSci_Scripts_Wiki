@@ -1,0 +1,167 @@
+Tips:
+The algorithm for doing Bader's analysis on a charge density grid was developed by Henkelman group, and more detailed information can be found in their website:
+https://theory.cm.utexas.edu/henkelman/code/bader/
+
+Steps:
+1. Cell relaxation;
+2. SCF calculation.
+After VASP calculation, we can use a ASE Python script to acheive the visualization of Bader charge transfer, and is shown below:
+'''
+#!/usr/bin/python3
+
+# prints out excess charge associated with each atom
+
+from numpy import arange,array,ones,linalg
+from matplotlib.pyplot import plot,show
+import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib import rc
+from ase import io
+
+
+import os
+import sys
+import csv
+import glob
+
+
+from math import pow
+from pylab import *
+import matplotlib
+import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib.path import Path
+from matplotlib.patches import PathPatch
+from matplotlib.ticker import *
+from scipy import *
+import os
+import sys
+import subprocess
+from array import array
+import numpy as np
+import matplotlib.colors as colors
+#from ase.structure import bulk
+from ase.lattice.spacegroup import crystal
+from ase.io import *
+from ase.io.trajectory import PickleTrajectory
+from ase.visualize import view
+from ase.io import write
+from ase import Atoms
+#from ase.lattice import bulk
+from ase.io import read
+from ase import Atoms
+from ase import Atom
+from ase.constraints import FixAtoms
+from ase.optimize import QuasiNewton
+from ase.optimize import BFGS
+from ase.visualize import *
+from ase.io import *
+import numpy as np
+
+
+import subprocess
+import os.path
+
+
+if(not os.path.exists('ACF.dat')):
+    if(os.path.exists('AECCAR0')):
+	    subprocess.call('chgsum.pl AECCAR0 AECCAR2', shell=True)
+	    subprocess.call('bader CHGCAR -ref CHGCAR_sum', shell=True)
+    else:
+	    subprocess.call('bader CHGCAR', shell=True)
+
+
+outfilename = 'bader_charges.txt'
+outfile=open(outfilename, 'w+')
+
+file = open("ACF.dat","r")
+lines = file.readlines() # This is what you forgot
+file.close()
+for j in [1, 0, -4,-3, -2, -1]:
+	del lines[j]
+	
+
+newlines = []
+for line in lines:
+	newline =list(map(float,line.split()))
+	newlines.append(newline)
+
+
+newlines = np.array(newlines)
+charge = newlines[:,4]
+
+#atoms=io.read('OUTCAR')
+atoms=io.read('POSCAR')
+write('qn.xyz',atoms)
+
+# get xyz file  
+filelist = glob.glob('*.xyz')
+xyzfile = filelist[0]		
+file = open(xyzfile,"r")
+lines = file.readlines() # This is what you forgot
+file.close()
+for j in [1, 0]:
+	del lines[j]
+	
+
+del newlines
+newlines = []
+for line in lines:
+	newline =line.split() # map(float,line.split())
+	newlines.append(newline)
+
+newarray = np.array(newlines)
+name = newarray[:,0]
+
+
+
+# charge on slab
+
+chargedict ={}
+fpotcar=open('POTCAR',"r+")
+lines = fpotcar.readlines()
+for line in lines:
+    if 'TITEL' in line:
+        elm = line.split()[3]
+    if 'ZVAL' in line:
+        #print line
+        zval = line.split()[5]
+        print(elm,zval)
+        chargedict[elm] = float(zval)
+
+
+
+write_charge=[]
+for i in range(0,len(charge)):
+	name_i = name[i]
+	index = i	
+	charge_i=charge[i]
+	netcharge=-(charge_i-chargedict[name_i])
+	netcharge_round=round(netcharge,2)
+	print (netcharge_round)
+	write_charge.append(netcharge_round)
+	print ('index: '+str(index)+' name: '+name_i+' charge: '+str(netcharge),file=outfile)
+
+
+outfile.close()
+
+outputfile=open(outfilename, "r")
+printout=outputfile.readlines()
+for line in printout:
+    print (line)
+
+write_charge_traj=True
+traj='OUTCAR'
+Len = len(sys.argv)
+if Len > 1:
+	for i in range(1,Len): 
+		if sys.argv[i] == "-t":
+                        traj = sys.argv[i+1]
+
+#write out file with the net charges as magnetic moments so it can be visualized in ase
+if write_charge_traj:
+	atoms=io.read('POSCAR')
+	atoms_charge=atoms.copy()
+	atoms_charge.set_initial_charges(write_charge)
+	io.write('bader_charge.traj',atoms_charge)
+'''
